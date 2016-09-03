@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -42,17 +43,22 @@ public class BackgroundService extends Service{
 
     public int onStartCommand(Intent intent, int flags, int startId){
         super.onStartCommand(intent, flags, startId);
-
+        //Socket soc = null;
         mQuit = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                InetSocketAddress address = new InetSocketAddress("192.168.1.58", 10419);
-                Socket soc = new Socket();
+                InetSocketAddress address = new InetSocketAddress("192.168.1.40", 10419);
+                Socket soc = null;
+                try{
+                    soc = new Socket("192.168.1.40", 10419);
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
                 byte[] messageByte = new byte[1000];
 
                 try{
-                    soc.connect(address, 1000);
+                    Log.d("socket", soc.toString());
                     in = soc.getInputStream();
                     din = new DataInputStream(in);
                     out = soc.getOutputStream();
@@ -62,7 +68,7 @@ public class BackgroundService extends Service{
 
                     int bytesRead = din.read(messageByte);
                     messageString += new String(messageByte, 0, bytesRead);
-                    messageString = messageString.split("5")[1];
+                    //messageString = messageString.split("5")[1];
                     Message msg = new Message();
                     msg.what = 0;
                     msg.obj = messageString;

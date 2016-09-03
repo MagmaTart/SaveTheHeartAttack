@@ -12,17 +12,25 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Message;
 import android.os.MessageQueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +39,11 @@ public class Main extends AppCompatActivity {
     TextView ResultText;
     ImageButton convert;
     Location currentLocation;
+
+    InputStream in;
+    DataInputStream din = null;
+    OutputStream out;
+    DataOutputStream dout = null;
 
     private void sendSMS(String phoneNumber, String message) {
         String SENT = "SMS_SENT";
@@ -61,6 +74,9 @@ public class Main extends AppCompatActivity {
         //gpsText = (TextView)findViewById(R.id.gpsInfoText);
         //ResultText = (TextView)findViewById(R.id.GeocodingResultText);
         convert = (ImageButton)findViewById(R.id.iconvert);
+
+        Intent intent = new Intent("doubledouble.backgroundService");
+        startService(intent);
 
         final LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -109,6 +125,9 @@ public class Main extends AppCompatActivity {
                 if(currentLocation != null){
                     String result = "";
                     String toSend = result + findAddress(37.375307, 126.6658447);
+                    //Intent toBackground = new Intent(getApplicationContext(), BackgroundService.class);
+                    //toBackground.putExtra("latitude", 37.375307);
+                    //toBackground.putExtra("longitude", 126.6658447);
                     //(findAddress(currentLocation.getLatitude()-0.1, currentLocation.getLongitude()))
                     //ResultText.setText(toSend);
                     sendSMS("01027640415", toSend);
