@@ -3,29 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="doubledouble.savetheheartattack.Main"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/background">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center|top"
+    android:orientation="vertical">
 
-
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="장난/허위신고시 처벌을 받을수 있습니다."
-            android:textSize="18dp"/>
-    </LinearLayout>
+        android:text="Here is GPS location Info"
+        android:id="@+id/gpsInfoText"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imagebutton"
         android:src="@drawable/button1"
         android:padding="0dp"
         android:background="@drawable/button1"
@@ -33,18 +26,16 @@
         android:adjustViewBounds="true"
         android:maxHeight="300dp"
         android:maxWidth="1000dp"
-        android:onClick="mOnclick" />
+        android:layout_marginTop="50dp"
+        android:text="convert"
+        android:id="@+id/iconvert"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:id="@+id/text1"
-        android:text="근처에 쓰러진 사람이 있다면
-      버튼을 누르세요"
-        android:textSize="30sp"
-        android:layout_marginBottom="64dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
+        android:textSize="22sp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="근처에 쓰러진 사람이 있다면, 버튼을 누르세요!"/>
 
 </LinearLayout>
