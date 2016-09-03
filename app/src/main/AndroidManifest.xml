@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".stepTwo" android:screenOrientation="landscape"/>
+
         <service android:name=".BackgroundService" android:enabled="true">
             <intent-filter>
                 <action android:name="doubledouble.backgroundService"/>
