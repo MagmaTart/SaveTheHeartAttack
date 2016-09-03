@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Address;
@@ -14,6 +15,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Message;
 import android.os.MessageQueue;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -45,6 +47,27 @@ public class Main extends AppCompatActivity {
     OutputStream out;
     DataOutputStream dout = null;
 
+    private void areYouReal(final String phoneNumber, final String message) {
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage("진짜 신고할거야?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Action for 'YES' Button
+                sendSMS(phoneNumber, message);
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Action for 'NO' Button
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alt_bld.create();
+        // Title for AlertDialog
+        alert.setTitle("이번 신고는 혼인신고");
+        // Icon for AlertDialog
+        // alert.setIcon(R.drawable.icon);
+        alert.show();
+    }
+
     private void sendSMS(String phoneNumber, String message) {
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
@@ -67,6 +90,7 @@ public class Main extends AppCompatActivity {
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
     }
 
+    // ---------------------------------------------------------------------------------------------onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,21 +148,19 @@ public class Main extends AppCompatActivity {
                 currentLocation = mLoc;
                 if(currentLocation != null){
                     String result = "";
-                    String toSend = result + findAddress(37.375307, 126.6658447);
+                    String message = result + findAddress(37.375307, 126.6658447);
                     //Intent toBackground = new Intent(getApplicationContext(), BackgroundService.class);
                     //toBackground.putExtra("latitude", 37.375307);
                     //toBackground.putExtra("longitude", 126.6658447);
                     //(findAddress(currentLocation.getLatitude()-0.1, currentLocation.getLongitude()))
                     //ResultText.setText(toSend);
-                    sendSMS("01027640415", toSend);
+                    areYouReal("01027640415", message);
                 }
                 //else
                     //ResultText.setText("Failed.");
             }
         });
-
-
-    }
+    } // onCreate()
 
     private String findAddress(double lat, double lng) {
         StringBuffer bf = new StringBuffer();
