@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 public class Main extends AppCompatActivity {
     //구조요청 Main 화면 Activity.
-    //컴
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
